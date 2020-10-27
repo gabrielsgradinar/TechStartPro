@@ -6,7 +6,7 @@ class Category(Base):
     __tablename__ = 'categories'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    name = Column(String)
+    name = Column(String(100))
 
     product = relationship("Product", back_populates="categories")
 
