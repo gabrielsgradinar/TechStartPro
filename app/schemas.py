@@ -21,7 +21,7 @@ class ProductBase(BaseModel):
 class ProductCreate(ProductBase):
     name: str
     description: Optional[str] = ""
-    value: int
+    value: float
     categories_id: List
 
 

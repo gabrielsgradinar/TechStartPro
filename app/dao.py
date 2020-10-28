@@ -37,24 +37,16 @@ class ProductDAO():
         return products
     
     def read_by(self, db: Session, filters: dict):
-        name = filters["name"] 
-        description = filters["description"]
-        value = filters["value"]
 
-        stmt = select([Product]).where(
-                or_(
-                        Product.name == name,
-                        Product.description == description,
-                        Product.value == value,
-                )
+        products = db.query(Product).filter(
+            or_(
+                Product.name == filters["name"], 
+                Product.description == filters["description"],
+                Product.value == filters["value"],
+                Product.categories_id == filters["categories_id"],                 
             )
-
-        products = db.query(Product).from_statement(stmt)
-
-
- 
-        print(products)
-        # return products
+        ).all()
+        return products
     
     def delete(self, db: Session, id: int):
         deleted_product = db.query(Product).filter(Product.id == id).first()

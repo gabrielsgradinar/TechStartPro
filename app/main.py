@@ -33,12 +33,13 @@ async def get_product_by(
     db: Session = Depends(get_db), 
     name: str = "", 
     description: str = "",
-    value: float = 0.0
+    value: float = 0,
+    categories_id: int = 0
 ):
     filters = {}
     filters["name"] = name
     filters["description"] = description
-    filters["value"] = value
+    filters["value"] = value if float(value) else 0
 
     return ProductDAO().read_by(db=db, filters=filters)
 
