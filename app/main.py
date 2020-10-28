@@ -24,16 +24,30 @@ async def root():
 async def create_product(product: schemas.ProductCreate, db: Session = Depends(get_db)):
     return ProductDAO().create(db=db, product=product)
 
-@app.put("/product/{product_id}")
-async def get_product(product_id: int, product: schemas.ProductUpdate, db: Session = Depends(get_db)):
-    return ProductDAO().update(db=db, product=product, id=product_id)
-
-@app.get("/product/")
-async def get_product(db: Session = Depends(get_db)):
+@app.get("/products/")
+async def get_product_by(db: Session = Depends(get_db)):
     return ProductDAO().read(db=db)
 
+@app.get("/product/")
+async def get_product_by(
+    db: Session = Depends(get_db), 
+    name: str = "", 
+    description: str = "",
+    value: float = 0.0
+):
+    filters = {}
+    filters["name"] = name
+    filters["description"] = description
+    filters["value"] = value
+
+    return ProductDAO().read_by(db=db, filters=filters)
+
+@app.put("/product/{product_id}")
+async def update_product(product_id: int, product: schemas.ProductUpdate, db: Session = Depends(get_db)):
+    return ProductDAO().update(db=db, product=product, id=product_id)
+
 @app.delete("/product/{product_id}")
-async def get_product(product_id : int, db: Session = Depends(get_db)):
+async def delete_product(product_id : int, db: Session = Depends(get_db)):
     return ProductDAO().delete(db=db, id=product_id)
 
 

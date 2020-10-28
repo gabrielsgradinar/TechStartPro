@@ -1,5 +1,7 @@
 from models import Product, Category
 from sqlalchemy.orm import Session
+from sqlalchemy import or_
+from sqlalchemy.sql import select
 
 class ProductDAO():
 
@@ -33,6 +35,26 @@ class ProductDAO():
     def read(self, db: Session):
         products = db.query(Product).filter().all()
         return products
+    
+    def read_by(self, db: Session, filters: dict):
+        name = filters["name"] 
+        description = filters["description"]
+        value = filters["value"]
+
+        stmt = select([Product]).where(
+                or_(
+                        Product.name == name,
+                        Product.description == description,
+                        Product.value == value,
+                )
+            )
+
+        products = db.query(Product).from_statement(stmt)
+
+
+ 
+        print(products)
+        # return products
     
     def delete(self, db: Session, id: int):
         deleted_product = db.query(Product).filter(Product.id == id).first()
