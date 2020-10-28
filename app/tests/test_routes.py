@@ -1,6 +1,7 @@
-from os import ctermid
-from ..models import Category, Product
-from .conftest import client, init_db
+from ..conftest import client, init_db
+import sys, os
+myPath = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, myPath + '/../')
 
 mock_csv_response = [
     {'name': 'Category Test', 'id': 1},

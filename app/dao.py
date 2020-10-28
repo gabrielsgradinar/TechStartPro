@@ -1,12 +1,16 @@
-from .models import Product, Category
+from models import Product, Category
+from schemas import ProductCreate, ProductUpdate
 from sqlalchemy.orm import Session
 from sqlalchemy import or_
 import csv
 
 class ProductDAO():
 
-    def create(self, db: Session, product: Product):
-        category = db.query(Category).filter(Category.id == product.categories_id[0]).first()        
+    def create(self, db: Session, product: ProductCreate):
+        category = db.query(Category).filter(Category.id == product.categories_id[0]).first()
+        if not category:
+            return {'error': 'Category ID does not exists'}   
+
         product_db = Product(
             name=product.name,
             description=product.description,
@@ -18,7 +22,7 @@ class ProductDAO():
         db.refresh(product_db)
         return product_db
 
-    def update(self, db: Session, product: Product, id: int):
+    def update(self, db: Session, product: ProductUpdate, id: int):
         values_to_update = {}
         for key, value in product.dict().items():
             if value:
@@ -89,3 +93,4 @@ class CategoryDAO():
         db.add(category_db)
         db.commit()
         db.refresh(category_db)
+        return category_db

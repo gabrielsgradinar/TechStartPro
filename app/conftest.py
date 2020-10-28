@@ -1,10 +1,10 @@
 import pytest
-from ..models import Product, Category
+from .models import Product, Category
 from starlette.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from ..database import Base
-from ..main import app, get_db
+from .database import Base
+from .main import app, get_db
 
 
 SQL_DATABASE_URL = "sqlite:///./test_olist.db"

@@ -7,13 +7,7 @@ from sqlalchemy import (
     Table
 )
 from sqlalchemy.orm import relationship
-from .database import Base
-
-
-association_table = Table('association', Base.metadata,
-    Column('product_id', Integer, ForeignKey('products.id')),
-    Column('category_id', Integer, ForeignKey('categories.id'))
-)
+from database import Base
 
 class Product(Base):
     __tablename__ = 'products'

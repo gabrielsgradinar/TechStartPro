@@ -1,10 +1,8 @@
 from fastapi import FastAPI, Depends
-from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
-from .models import Category
-from .dao import ProductDAO, CategoryDAO
-from .database import Base, engine, SessionLocal
-from .schemas import *
+from dao import ProductDAO, CategoryDAO
+from database import Base, engine, SessionLocal
+from schemas import *
 app = FastAPI()
 
 Base.metadata.create_all(bind=engine)
@@ -51,7 +49,7 @@ async def get_product_by(
 
 @app.put("/product/{product_id}")
 async def update_product(product_id: int, product: ProductUpdate, db: Session = Depends(get_db)):
-    return JSONResponse(ProductDAO().update(db=db, product=product, id=product_id))
+    return ProductDAO().update(db=db, product=product, id=product_id)
 
 @app.delete("/product/{product_id}")
 async def delete_product(product_id : int, db: Session = Depends(get_db)):
