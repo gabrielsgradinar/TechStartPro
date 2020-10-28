@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Depends
 from sqlalchemy.orm import Session
 from models import Category
-from dao import ProductDAO
+from dao import ProductDAO, CategoryDAO
 from database import Base, engine, SessionLocal
 import schemas
 app = FastAPI()
@@ -59,5 +59,11 @@ async def create_category(db: Session = Depends(get_db)):
     db.commit()
     db.refresh(db_category)
     return db_category
+
+@app.get("/category/file")
+async def create_category_from_file(db: Session = Depends(get_db)):
+    file = "../categorias.csv"
+    return CategoryDAO().create_from_csv(db=db, file=file)
+    
 
 

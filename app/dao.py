@@ -1,7 +1,8 @@
+from os import read
 from models import Product, Category
 from sqlalchemy.orm import Session
 from sqlalchemy import or_
-from sqlalchemy.sql import select
+import csv
 
 class ProductDAO():
 
@@ -56,5 +57,17 @@ class ProductDAO():
 
 class CategoryDAO():
 
-    def insert_from_csv(self, db: Session, file):
-        pass
+    def create_from_csv(self, db: Session, file):        
+        with open(file, 'r') as csv_file:
+            reader = csv.DictReader(csv_file, delimiter=',')
+            for collumn in reader:
+               self.create(db, category_name=collumn['Nome'])
+
+        categories = db.query(Category).all()
+        return categories
+
+    def create(self, db: Session, category_name: str):
+        category_db = Category(name=category_name)
+        db.add(category_db)
+        db.commit()
+        db.refresh(category_db)
