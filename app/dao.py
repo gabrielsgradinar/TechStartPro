@@ -1,5 +1,4 @@
-from os import read
-from models import Product, Category
+from .models import Product, Category
 from sqlalchemy.orm import Session
 from sqlalchemy import or_
 import csv
@@ -25,8 +24,7 @@ class ProductDAO():
             if value:
                 values_to_update[key] = value
 
-        db.query(Product).filter(Product.id == id).update(
-            values_to_update)
+        db.query(Product).filter(Product.id == id).update(values_to_update)
         
         db.commit()
 
@@ -39,21 +37,37 @@ class ProductDAO():
     
     def read_by(self, db: Session, filters: dict):
 
-        products = db.query(Product).filter(
-            or_(
-                Product.name == filters["name"], 
-                Product.description == filters["description"],
-                Product.value == filters["value"],
-                Product.categories_id == filters["categories_id"],                 
-            )
-        ).all()
-        return products
+        filter_query = self.create_filter(filters)
+
+        print(*filter_query)
+
+        # products = db.query(Product).filter(
+        #     or_(
+        #         *filter_query              
+        #     )
+        # ).all()
+        # return products
     
     def delete(self, db: Session, id: int):
         deleted_product = db.query(Product).filter(Product.id == id).first()
         db.query(Product).filter(Product.id == id).delete()
         db.commit()
         return deleted_product
+
+    def create_filter(self, filters):
+        filter_query = []
+
+        for key in filters.keys():
+            if key == "name":
+                filter_query.append(Product.name == filters[key])
+            if key == "description":
+                filter_query.append(Product.name == filters[key])
+            if key == "value":
+                filter_query.append(Product.name == filters[key])
+            if key == "categories_id":
+                filter_query.append(Product.name == filters[key])
+        
+        return filter_query
 
 class CategoryDAO():
 
@@ -64,6 +78,10 @@ class CategoryDAO():
                self.create(db, category_name=collumn['Nome'])
 
         categories = db.query(Category).all()
+        return categories
+    
+    def read(self, db: Session):
+        categories = db.query(Category).filter().all()
         return categories
 
     def create(self, db: Session, category_name: str):

@@ -132,4 +132,5 @@ dmypy.json
 .vscode
 
 # app
+app/olist.db
 app/test_olist.db
