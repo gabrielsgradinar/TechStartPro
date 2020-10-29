@@ -1,20 +1,22 @@
 import pytest
-from .models import Product, Category
+from .models import Category, Product
 from starlette.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from .database import Base
+from .database import Base, engine
 from .main import app, get_db
 
 
-SQL_DATABASE_URL = "sqlite:///./test_olist.db"
+SQLALCHEMY_DATABASE_URL = "sqlite:///./test.db"
 
 engine = create_engine(
-    SQL_DATABASE_URL
+    SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
 )
 TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
+
 Base.metadata.create_all(bind=engine)
+
 
 def override_get_db():
     try:

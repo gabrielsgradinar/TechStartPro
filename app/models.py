@@ -4,13 +4,13 @@ from sqlalchemy import (
     String, 
     Float, 
     ForeignKey,
-    Table
 )
 from sqlalchemy.orm import relationship
 from database import Base
 
 class Product(Base):
     __tablename__ = 'products'
+    __table_args__ = {'extend_existing': True}
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(100))
@@ -21,11 +21,12 @@ class Product(Base):
     categories = relationship("Category", back_populates="products")
 
     def __repr__(self) -> str:
-        return f"Product -> name = {self.name}, description = {self.description}, value = {self.value} , categories_id= {self.categories_id}"
+        return f"name = {self.name}"
 
 
 class Category(Base):
     __tablename__ = 'categories'
+    __table_args__ = {'extend_existing': True}
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(100))
@@ -33,6 +34,6 @@ class Category(Base):
     products = relationship("Product", back_populates="categories")
 
     def __repr__(self) -> str:
-        return f"Category -> name = {self.name}"
+        return f"name = {self.name}"
 
 
