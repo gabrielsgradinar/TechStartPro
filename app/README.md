@@ -14,11 +14,10 @@ Para para atender os requisitos propóstos desafio foi feito a criação de uma 
 >  *  GET - */category/file* - faz a inserção de categorias apartir de um csv fixo dentro do projeto
 >  *  GET - */categories/* - busca todos as categorias
 >  *  *No endereço [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs) é possivel encontrar uma documentação utilizando o Swagger gerado pelo proprio FastAPI*
-
->  * Para realizar os testes execute o comando **pytest** dentro da pasta **app** ou na raiz do projeto.
+>  * Para realizar os testes execute o comando **python -m pytest -v tests/** dentro da pasta **app**
 
 ## Ambiente de desenvolvimento
->  * Computador: Notebook, I5, 8GB RAM e 128GB SSD + 1TB HDD
+>  * Computador: Notebook, Intel Core I5, 8GB RAM e 128GB SSD + 1TB HDD
 >  * Sistema operacional: Pop!_OS 20.10
 >  * Editor de Texto / IDE: Visual Studio Code + Extensões
 

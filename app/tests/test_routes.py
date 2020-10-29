@@ -1,8 +1,61 @@
-from ..conftest import client, init_db
-import sys, os
+import pytest
+from models import Category, Product
+from fastapi.testclient import TestClient
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy import create_engine
+
+from ..database import Base, engine
+from ..main import app, get_db
+
+SQLALCHEMY_DATABASE_URL = "sqlite:///./olist.db"
+
+engine = create_engine(
+    SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
+)
+
+TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+Base.metadata.create_all(bind=engine)
+
+def override_get_db():
+    try:        
+        db = TestingSessionLocal()
+        yield db
+    finally:
+        db.close()
+
+
+@pytest.fixture(autouse=True)
+def init_db():
+    db = TestingSessionLocal()
+
+    db.query(Category).delete()
+    db.query(Product).delete()
+
+    product = Product(
+        name='Product',
+        description='Product Description',
+        value=17.5,
+        categories_id=1,
+    )
+    category = Category(name="Games")
+    db.add(product)
+    db.add(category)
+    db.commit()
+    db.refresh(product)
+    db.refresh(category)
+
+    yield db
+
+    db.close()
+
+
+app.dependency_overrides[get_db] = override_get_db
+
+client = TestClient(app)
 
 mock_csv_response = [
-    {'name': 'Category Test', 'id': 1},
+    {'name': 'Games', 'id': 1},
     {'name': 'Móveis', 'id': 2},
     {'name': 'Decoração', 'id': 3}, 
     {'name': 'Celular', 'id': 4}, 
@@ -15,6 +68,13 @@ mock_create_product = {
     "description":"Product description",
     "value":5.3,
     "categories_id":[1]
+}
+
+mock_error_create_product = {
+    "name":"Product Create",
+    "description":"Product description",
+    "value":5.3,
+    "categories_id":[0]
 }
 
 mock_update_product = {
@@ -33,10 +93,7 @@ def test_select_all_categories_with_api():
     response = client.get("/categories/")
 
     assert response.status_code == 200
-    assert response.json() == [{
-        "id":1, 
-        "name":"Category Test"
-    }]
+    assert response.json()[0] == {'name': 'Games', 'id': 1}
 
 def test_create_product_with_api():
     response = client.post('/product/', json=mock_create_product)
@@ -47,8 +104,13 @@ def test_create_product_with_api():
     assert response.status_code == 200
     assert response.json() == mock_create_product
 
+def test_error_create_product_with_api():
+    response = client.post('/product/', json=mock_error_create_product)
+
+    assert response.json() == {'error': 'Category ID does not exists'}
+
 def test_update_product_with_api():   
-    response = client.put('/product/2', json=mock_update_product)
+    response = client.put('/product/1', json=mock_update_product)
 
     assert response.status_code == 200
 
@@ -57,11 +119,11 @@ def test_delete_product_with_api():
 
     assert response.status_code == 200
     assert response.json() == {
-        'id': 1, 
-        'value': 17.5, 
-        'name': 'Product', 
-        'categories_id': 1, 
-        'description': 'Product description'
+        "id": 1,
+        "name":"Product",
+        "description":"Product Description",
+        "value":17.5,
+        "categories_id":1
     }
 
 def test_select_all_products_with_api():
@@ -69,12 +131,9 @@ def test_select_all_products_with_api():
 
     assert response.status_code == 200
     assert response.json() == [{
-        'id': 1, 
-        'value': 17.5, 
-        'name': 'Product', 
-        'categories_id': 1, 
-        'description': 'Product description'
+        "id": 1,
+        "name":"Product",
+        "description":"Product Description",
+        "value":17.5,
+        "categories_id":1
     }]
-
-def test_select_products_using_filters_with_api():
-    pass

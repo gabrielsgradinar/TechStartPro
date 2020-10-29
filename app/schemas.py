@@ -14,7 +14,7 @@ class Category(CategoryBase):
 class ProductBase(BaseModel):
     name: str
     description: Optional[str] = ""
-    value: int
+    value: float
     categories_id: List
 
 
@@ -28,7 +28,7 @@ class ProductCreate(ProductBase):
 class ProductUpdate(ProductBase):
     name: Optional[str]
     description: Optional[str] = ""
-    value: Optional[int]
+    value: Optional[float]
     categories_id: Optional[List]
 
 

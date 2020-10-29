@@ -2,6 +2,7 @@ from models import Product, Category
 from schemas import ProductCreate, ProductUpdate
 from sqlalchemy.orm import Session
 from sqlalchemy import or_
+from fastapi import status
 import csv
 
 class ProductDAO():
