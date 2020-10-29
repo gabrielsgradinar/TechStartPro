@@ -35,5 +35,3 @@ class Category(Base):
 
     def __repr__(self) -> str:
         return f"name = {self.name}"
-
-

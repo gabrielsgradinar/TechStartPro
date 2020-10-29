@@ -2,9 +2,6 @@ from ..schemas import ProductCreate, ProductUpdate
 from ..models import Category, Product
 from ..dao import CategoryDAO, ProductDAO
 from ..conftest import init_db
-import sys, os
-myPath = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, myPath + '/../')
 
 file = "../categorias.csv"
 

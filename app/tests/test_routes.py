@@ -1,7 +1,5 @@
 from ..conftest import client, init_db
 import sys, os
-myPath = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, myPath + '/../')
 
 mock_csv_response = [
     {'name': 'Category Test', 'id': 1},
@@ -25,13 +23,13 @@ mock_update_product = {
 }
 
 
-def test_insert_categories_from_csv_file(init_db):
+def test_insert_categories_from_csv_file():
     response = client.get("/category/file")
 
     assert response.status_code == 200
     assert response.json() == mock_csv_response
 
-def test_select_all_categories_with_api(init_db):
+def test_select_all_categories_with_api():
     response = client.get("/categories/")
 
     assert response.status_code == 200
@@ -40,7 +38,7 @@ def test_select_all_categories_with_api(init_db):
         "name":"Category Test"
     }]
 
-def test_create_product_with_api(init_db):
+def test_create_product_with_api():
     response = client.post('/product/', json=mock_create_product)
 
     mock_create_product['id'] = 2
@@ -49,12 +47,12 @@ def test_create_product_with_api(init_db):
     assert response.status_code == 200
     assert response.json() == mock_create_product
 
-def test_update_product_with_api(init_db):   
+def test_update_product_with_api():   
     response = client.put('/product/2', json=mock_update_product)
 
     assert response.status_code == 200
 
-def test_delete_product_with_api(init_db):   
+def test_delete_product_with_api():   
     response = client.delete('/product/1')
 
     assert response.status_code == 200
@@ -66,7 +64,7 @@ def test_delete_product_with_api(init_db):
         'description': 'Product description'
     }
 
-def test_select_all_products_with_api(init_db):
+def test_select_all_products_with_api():
     response = client.get("/products/")
 
     assert response.status_code == 200
@@ -78,5 +76,5 @@ def test_select_all_products_with_api(init_db):
         'description': 'Product description'
     }]
 
-def test_select_products_using_filters_with_api(init_db):
+def test_select_products_using_filters_with_api():
     pass
