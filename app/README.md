@@ -18,15 +18,15 @@ Para para atender os requisitos propóstos desafio foi feito a criação de uma 
 >  * Para realizar os testes execute o comando **pytest** dentro da pasta **app** ou na raiz do projeto.
 
 ## Ambiente de desenvolvimento
-* Computador: Notebook, I5, 8GB RAM e 128GB SSD + 1TB HDD
-* Sistema operacional: Pop!_OS 20.10
-* Editor de Texto / IDE: Visual Studio Code + Extensões
+>  * Computador: Notebook, I5, 8GB RAM e 128GB SSD + 1TB HDD
+>  * Sistema operacional: Pop!_OS 20.10
+>  * Editor de Texto / IDE: Visual Studio Code + Extensões
 
 As principais tecnologias utilizadas no projeto foram:
-* Framework FastAPI - framework para a criação das rotas da API
-* SQLAlchemy - ORM utilizado para criação dos modelos do banco de dados
-* Pydantic - biblioteca utilizada para a validação de dados nas requisições da API
-* Pytest - Framework para a realização dos testes
+>  * Framework FastAPI - framework para a criação das rotas da API
+>  * SQLAlchemy - ORM utilizado para criação dos modelos do banco de dados
+>  * Pydantic - biblioteca utilizada para a validação de dados nas requisições da API
+>  * Pytest - Framework para a realização dos testes
 
 
 
