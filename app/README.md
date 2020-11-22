@@ -1,6 +1,6 @@
-# Desafio Olist TechStartPro
+# Desafio TechStartPro
 
-Para para atender os requisitos propóstos desafio foi feito a criação de uma API com Python utilizando o framorko FastAPI para realizar o CRUD do produto e a inserção das categorias via arquivo csv.
+Para para atender os requisitos propóstos desafio foi feito a criação de uma API com Python utilizando o framework FastAPI para realizar o CRUD do produto e a inserção das categorias via arquivo csv.
 
 ## Instalação das dependencia para execução do projeto e testes
 >  * Para a instalação das dependencia é necessário ter Python 3.x e o gerenciador de pacotes do Python instalado o **pip**
