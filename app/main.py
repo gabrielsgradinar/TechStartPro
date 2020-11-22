@@ -23,6 +23,7 @@ async def root():
 @app.post("/product/")
 async def create_product(product: ProductCreate, db: Session = Depends(get_db)):
     return ProductDAO().create(db=db, product=product)
+    
 @app.get("/products/")
 async def get_products(db: Session = Depends(get_db)):
     return ProductDAO().read(db=db)

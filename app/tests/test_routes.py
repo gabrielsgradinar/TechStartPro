@@ -114,7 +114,7 @@ def test_update_product_with_api():
 
     assert response.status_code == 200
 
-def test_delete_product_with_api():   
+def test_delete_product_with_api():
     response = client.delete('/product/1')
 
     assert response.status_code == 200
