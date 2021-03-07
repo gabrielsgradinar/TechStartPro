@@ -1,4 +1,4 @@
-# Desafio TechStartPro
+# Desafio
 
 Para para atender os requisitos propóstos desafio foi feito a criação de uma API com Python utilizando o framework FastAPI para realizar o CRUD do produto e a inserção das categorias via arquivo csv.
 
